@@ -2,9 +2,8 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    max-height: 10rem;
-    overflow: scroll;
-    
+    max-height: 25rem !important;
+    overflow-y:scroll !important;
   }
   
   .total {

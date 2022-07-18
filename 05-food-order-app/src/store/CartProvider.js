@@ -15,7 +15,7 @@ const cartReducer = (state, action) => {
     const existingCartItem = state.items[exisitingCartItemIndex];
     let updatedItem;
     let updatedItems;
-    if (existingCartItem) { 
+    if (existingCartItem) {
       updatedItem = {
         ...existingCartItem,
         amount: existingCartItem.amount + action.item.amount,
@@ -23,7 +23,7 @@ const cartReducer = (state, action) => {
       updatedItems = [...state.items];
       updatedItems[exisitingCartItemIndex] = updatedItem;
     } else {
-        updatedItems = state.items.concat(action.item)
+      updatedItems = state.items.concat(action.item);
     }
     return {
       items: updatedItems,
@@ -31,19 +31,26 @@ const cartReducer = (state, action) => {
     };
   }
   if (action.type === "REMOVE") {
-    let updatedItems = [...state.items]
-    let updatedIndex = [...state.items].findIndex(item => item.id === action.id)
+    let updatedItems = [...state.items];
+    let updatedIndex = [...state.items].findIndex(
+      (item) => item.id === action.id
+    );
     let updatedTotalAmount = 0;
-    updatedItems[updatedIndex].amount = updatedItems[updatedIndex].amount -1
-    if( updatedItems[updatedIndex].amount === 0 ){
-        updatedItems = updatedItems.filter(item => item.id !== action.id)
-           
+    updatedItems[updatedIndex].amount = updatedItems[updatedIndex].amount - 1;
+    if (updatedItems[updatedIndex].amount === 0) {
+      updatedItems = updatedItems.filter((item) => item.id !== action.id);
     }
-    updatedTotalAmount = updatedItems.reduce((total,item) => total + (item.price * item.amount) , 0 )
+    updatedTotalAmount = updatedItems.reduce(
+      (total, item) => total + item.price * item.amount,
+      0
+    );
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
     };
+  }
+  if (action.type === "CLEAR") {
+    return defaultCartState;
   }
   return defaultCartState;
 };
@@ -59,12 +66,16 @@ const CartProvider = (props) => {
   const removeItemFromCartHandler = (id) => {
     dispatchCartAction({ type: "REMOVE", id: id });
   };
+  const clearCartHandler = () =>{
+    dispatchCartAction({type:"CLEAR"})
+  }
 
   const cartContext = {
     items: cartState.items,
     totalAmount: cartState.totalAmount,
     addItem: addItemtoCartHandler,
     removeItem: removeItemFromCartHandler,
+    clearCart: clearCartHandler
   };
 
   return (
