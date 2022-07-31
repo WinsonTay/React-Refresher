@@ -24,11 +24,15 @@ import { getSingleQuote } from "../lib/api";
 //   },
 // ];
 const QuoteDetail = () => {
-  const { sendRequest, status, data: loadedQuote } = useHttp(getSingleQuote,true);
+  const {
+    sendRequest,
+    status,
+    data: loadedQuote,
+  } = useHttp(getSingleQuote, true);
   const location = useLocation();
   const match = useRouteMatch();
   const params = useParams();
-  const {quoteId} = params;
+  const { quoteId } = params;
   useEffect(() => {
     sendRequest(quoteId);
   }, [sendRequest, quoteId]);
